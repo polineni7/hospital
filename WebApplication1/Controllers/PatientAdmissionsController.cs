@@ -8,46 +8,45 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class PatientRegWrapper
+    public class AdmissionWrapper
     {
-        public PatientRegistrations preg { get; set; }
+        public PatientAdmissions padmi { get; set; }
         public int trans { get; set; }
         public String result { get; set; }
     }
-    public class PatientController : Controller
+    public class PatientAdmissionsController : Controller
     {
         [HttpPost]
-        [Route("api/Labc/getRegi")]
+        [Route("api/Labc/getAdmissions")]
 
-        public PatientRegWrapper getRegi([FromBody] PatientRegWrapper lc)
+        public AdmissionWrapper getAdmissions([FromBody] AdmissionWrapper lc)
         {
             hospitalsContext db = new hospitalsContext();
             String msg = "";
 
             try
             {
-                if (descision(lc.preg.PatientId))
+                if (descision(lc.padmi.PatientId))
                 {
                     switch (lc.trans)
                     {
                         case 1:
-                            db.PatientRegistrations.Add(lc.preg);
+                            db.PatientAdmissions.Add(lc.padmi);
                             db.SaveChanges();
                             msg = "ok";
                             break;
                         case 2:
-                            var ld = db.PatientRegistrations.Where(a => a.PatientId == lc.preg.PatientId).FirstOrDefault();
-                            ld.PatientId = lc.preg.PatientId;
-                            ld.PatientName = lc.preg.PatientName;
-                            ld.Mobilenumber = lc.preg.Mobilenumber;
-                            ld.Addr = lc.preg.Addr;
-                            ld.City = lc.preg.City;
+                            var ld = db.PatientAdmissions.Where(a => a.AdminssionId == lc.padmi.AdminssionId).FirstOrDefault();
+                            ld.PatientId = lc.padmi.PatientId;
+                            ld.JoiningDate = lc.padmi.JoiningDate;
+                            ld.Roomno = lc.padmi.Roomno;
+                            ld.DailyAmt = lc.padmi.DailyAmt;
                             db.SaveChanges();
                             msg = "ok";
                             break;
                         case 3:
-                            var del = db.PatientRegistrations.Where(a => a.PatientId == lc.preg.PatientId).FirstOrDefault();
-                            db.PatientRegistrations.Remove(del);
+                            var del = db.PatientAdmissions.Where(a => a.AdminssionId == lc.padmi.AdminssionId).FirstOrDefault();
+                            db.PatientAdmissions.Remove(del);
                             db.SaveChanges();
                             msg = "OK";
                             break;
@@ -68,11 +67,11 @@ namespace WebApplication1.Controllers
 
 
         }
-        public Boolean descision(int? pid)
+        public Boolean descision(int? aid)
         {
             var b = false;
             hospitalsContext db = new hospitalsContext();
-            var y = db.PatientRegistrations.Where(a => a.PatientId == pid).FirstOrDefault();
+            var y = db.PatientAdmissions.Where(a => a.AdminssionId == aid).FirstOrDefault();
             if (y != null)
             {
                 b = true;

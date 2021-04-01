@@ -87,7 +87,7 @@ namespace WebApplication1.Models
                 entity.HasKey(e => e.TestId)
                     .HasName("PK__labs__A29BFB88B707E397");
 
-                entity.ToTable("labs");
+                entity.ToTable("PatientAdmissions");
 
                 entity.Property(e => e.TestId).HasColumnName("testId");
 
